@@ -1,2 +1,2 @@
-cd c:\Docs\GearUp\web
+cd c:\Docs\GearUp\docs
 python -m http.server 8765

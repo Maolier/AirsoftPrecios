@@ -26,7 +26,7 @@ from clasificar_productos import (
     leer_filas,
 )
 
-ARCHIVO_JS = CARPETA / "web" / "js" / "datos-catalogo.js"
+ARCHIVO_JS = CARPETA / "docs" / "js" / "datos-catalogo.js"
 
 NOMBRES_TIENDA = {
     "airsoftgames": "Airsoft Games",
