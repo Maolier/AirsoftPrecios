@@ -1,0 +1,39 @@
+[
+  {
+    "nombre": "airsoftgames",
+    "direccion": "https://airsoftgames.cl",
+    "plataforma": "woocommerce",
+    "pausa": 1.5
+  },
+  {
+    "nombre": "airsoftdefence",
+    "direccion": "https://airsoftdefence.com",
+    "plataforma": "woocommerce",
+    "pausa": 1.5
+  },
+  {
+    "nombre": "commandostore",
+    "direccion": "https://www.commandostore.cl",
+    "plataforma": "bsale",
+    "pausa": 1.5
+  },
+  {
+    "nombre": "gogogo",
+    "direccion": "https://www.gogogo.cl",
+    "plataforma": "bsale",
+    "pausa": 1.5
+  },
+  {
+    "nombre": "airsoftrhino",
+    "direccion": "https://airsoftrhino.cl",
+    "plataforma": "prestashop",
+    "pausa": 1.5
+  },
+  {
+    "nombre": "ironwolf",
+    "direccion": "https://www.ironwolf.cl",
+    "plataforma": "wix",
+    "pausa": 5,
+    "activo": false
+  }
+]

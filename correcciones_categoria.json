@@ -1,0 +1,119 @@
+{
+  "como_usar": [
+    "Cada corrección se identifica por el enlace del producto (el mismo del CSV).",
+    "Si el producto está en esta lista, se usa esta categoría y se ignoran las palabras clave.",
+    "categoria debe ser el nombre exacto: Réplicas, Cargadores, Munición, Protección, Uniforme y equipamiento, Accesorios externos, Accesorios internos / upgrades, Baterías y cargadores eléctricos, Packs y combos, Otros.",
+    "subcategoria es opcional. Debe ser el nombre exacto de la subcategoría (Pistolas, BBs, Máscaras y lentes, Uniformes, Hop-up, etc.).",
+    "El enlace se compara sin www, sin / final y sin mayúsculas."
+  ],
+  "correcciones": [
+    {
+      "enlace": "https://airsoftdefence.com/producto/yzh-funda-para-casco-fast-aor1-emerson/",
+      "categoria": "Uniforme y equipamiento",
+      "subcategoria": "",
+      "nota": "Funda para casco FAST AOR1: no es Protección."
+    },
+    {
+      "enlace": "https://airsoftgames.cl/producto/fma-helmet-nv-mount-nylon/",
+      "categoria": "Accesorios externos",
+      "subcategoria": "",
+      "nota": "FMA helmet NV mount nylon. El producto está en Airsoft Games, no en Airsoft Defence."
+    },
+    {
+      "enlace": "https://airsoftgames.cl/producto/m90-specna-arms-largo/",
+      "categoria": "Accesorios internos / upgrades",
+      "subcategoria": "",
+      "nota": "M90 Specna Arms largo: resorte, no réplica."
+    },
+    {
+      "enlace": "https://airsoftgames.cl/producto/shell-specna-arms-aether/",
+      "categoria": "Munición",
+      "subcategoria": "",
+      "nota": "Shell Specna Arms Aether: cartucho/shell, no réplica."
+    },
+    {
+      "enlace": "https://airsoftrhino.cl/pesca-y-caza/4228-umarex-super-h-point-cal-55-mm-22-diabolo-250-pieces-hollow-point-4000844841308.html",
+      "categoria": "Munición",
+      "subcategoria": "",
+      "nota": "Umarex Super H-Point: diabolo/munición de caza, no réplica."
+    },
+    {
+      "enlace": "https://www.gogogo.cl/product/cyma-bolt-catch",
+      "categoria": "Accesorios internos / upgrades",
+      "subcategoria": "",
+      "nota": "CYMA Bolt Catch: pieza interna, no réplica."
+    },
+    {
+      "enlace": "https://airsoftdefence.com/producto/mix-series-p2-bb-poseidon/",
+      "categoria": "Réplicas",
+      "subcategoria": "Pistola",
+      "nota": ""
+    },
+    {
+      "enlace": "https://airsoftdefence.com/producto/dragonpro-dp-pca-portable-co2-adaptador/",
+      "categoria": "Munición",
+      "subcategoria": "",
+      "nota": ""
+    },
+    {
+      "enlace": "https://www.commandostore.cl/product/valken-gelblaster-surgexl-10-000-hidrogel",
+      "categoria": "Otros",
+      "subcategoria": "",
+      "nota": "Gelblaster"
+    },
+    {
+      "enlace": "https://www.commandostore.cl/product/accesorio-porta-bateria-kwa-beu-battery",
+      "categoria": "Externos",
+      "subcategoria": "",
+      "nota": "Porta batería"
+    },
+    {
+      "enlace": "https://www.gogogo.cl/product/adaptador-serpa-qd-hembra-macho-negro",
+      "categoria": "Otros",
+      "subcategoria": "",
+      "nota": ""
+    },
+    {
+      "enlace": "https://airsoftdefence.com/producto/wosport-amplificador-y-atenuador-de-sonido-ipsc-hd-12-coyote/",
+      "categoria": "uniforme y equipamiento",
+      "subcategoria": "",
+      "nota": ""
+    },
+    {
+      "enlace": "https://www.commandostore.cl/product/replica-aeg-vfc-mk48-mod1-full-metal-con-box-magazine-cal-6-mm",
+      "categoria": "Réplicas",
+      "subcategoria": "Soporte",
+      "nota": "VFC MK48 MOD1: réplica LMG, no cargador."
+    },
+    {
+      "enlace": "https://www.commandostore.cl/product/replica-cal-6-mm-mod-kwa-m4-sr5-gen-2-model-w-extra-magazine-kwa-sr5",
+      "categoria": "Réplicas",
+      "subcategoria": "Fusil",
+      "nota": "KWA M4 SR5: réplica, no cargador."
+    },
+    {
+      "enlace": "https://airsoftgames.cl/producto/cyma-ak-74m-airsoft-aeg-rifle-w-folding-stock-black-metal-cm040c/",
+      "categoria": "Réplicas",
+      "subcategoria": "Fusil",
+      "nota": "CYMA AK74M: réplica de fusil."
+    },
+    {
+      "enlace": "https://www.gogogo.cl/product/cyma-ak103-tactical-cm040k-aeg",
+      "categoria": "Réplicas",
+      "subcategoria": "Fusil",
+      "nota": "CYMA AK103 Tactical: réplica de fusil."
+    },
+    {
+      "enlace": "https://airsoftrhino.cl/traumaticas/4200-t4e-carabina-tc-68-blk-68-co2-40j-24067x-4000844887443.html",
+      "categoria": "Réplicas",
+      "subcategoria": "Fusil",
+      "nota": "T4E Carabina TC 68: forzar a réplicas."
+    },
+    {
+      "enlace": "https://airsoftrhino.cl/escopetas/3461-golden-eagle-m870-tactical-gas-shotgun.html",
+      "categoria": "Réplicas",
+      "subcategoria": "Escopeta",
+      "nota": "Golden Eagle M870: réplica de escopeta."
+    }
+  ]
+}

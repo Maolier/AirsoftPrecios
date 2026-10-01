@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loadout · GearUp</title>
+  <link rel="stylesheet" href="css/estilos.css?v=11">
+</head>
+<body>
+  <main class="contenido">
+    <div class="titulo-seccion">
+      <div>
+        <p class="miga">Ningún espacio es obligatorio. Elige solo lo que te falta.</p>
+        <h1>Loadout</h1>
+      </div>
+      <button type="button" class="boton-texto" id="vaciar-loadout">Vaciar</button>
+    </div>
+
+    <div class="loadout-tablero">
+      <div class="loadout-col" id="col-izq"></div>
+      <div class="loadout-centro">
+        <div id="slot-cabeza"></div>
+        <div class="loadout-figura" aria-hidden="true">
+          <img class="figura-svg" src="img/silueta-loadout.png" alt="">
+        </div>
+      </div>
+      <div class="loadout-col" id="col-der"></div>
+    </div>
+
+    <div class="loadout-total" id="total-loadout">Total: $0</div>
+
+    <section class="loadout-picker" id="picker" hidden>
+      <div class="loadout-picker-cabecera">
+        <div>
+          <p class="miga" id="picker-miga"></p>
+          <h2 id="picker-titulo">Elegir producto</h2>
+        </div>
+        <button type="button" class="boton-texto" id="cerrar-picker">Cerrar</button>
+      </div>
+      <div class="loadout-picker-filtros">
+        <input type="search" id="picker-q" placeholder="Filtrar en este espacio">
+        <label class="orden-caja">Ordenar por
+          <select id="picker-orden">
+            <option value="">Por defecto</option>
+            <option value="menor">Precio: menor a mayor</option>
+            <option value="mayor">Precio: mayor a menor</option>
+            <option value="descuento">Descuento: mayor a menor</option>
+          </select>
+        </label>
+      </div>
+      <div id="picker-listado"></div>
+    </section>
+  </main>
+  <script src="js/datos-catalogo.js"></script>
+  <script src="js/comun.js?v=8"></script>
+  <script src="js/loadout.js?v=1"></script>
+</body>
+</html>

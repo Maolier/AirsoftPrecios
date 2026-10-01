@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Categoría · GearUp</title>
+  <link rel="stylesheet" href="css/estilos.css?v=11">
+</head>
+<body>
+  <main class="contenido">
+    <div class="titulo-seccion">
+      <div>
+        <p class="miga" id="miga"></p>
+        <h1 id="titulo">Categoría</h1>
+      </div>
+      <label class="orden-caja">Ordenar por
+        <select id="orden">
+          <option value="">Por defecto</option>
+          <option value="menor">Precio: menor a mayor</option>
+          <option value="mayor">Precio: mayor a menor</option>
+          <option value="descuento">Descuento: mayor a menor</option>
+        </select>
+      </label>
+    </div>
+    <div id="listado"></div>
+  </main>
+  <script src="js/datos-catalogo.js"></script>
+  <script src="js/comun.js?v=8"></script>
+  <script src="js/categoria.js?v=4"></script>
+</body>
+</html>
