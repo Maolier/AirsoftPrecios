@@ -1,0 +1,79 @@
+name: Actualizar precios
+
+on:
+  schedule:
+    # 12:00 UTC = 09:00 Chile en horario de verano (UTC-3).
+    # En invierno (UTC-4) son las 08:00 Chile.
+    - cron: "0 12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: actualizar-precios
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      TZ: America/Santiago
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Extraer precios
+        id: extraer
+        continue-on-error: true
+        run: python extraer_precios.py
+
+      - name: Clasificar productos
+        id: clasificar
+        continue-on-error: true
+        run: python clasificar_productos.py
+
+      - name: Generar catálogo web
+        id: generar
+        if: steps.clasificar.outcome == 'success'
+        continue-on-error: true
+        run: python generar_catalogo_web.py
+
+      - name: Commit y push
+        if: steps.clasificar.outcome == 'success' && steps.generar.outcome == 'success'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add precios/ productos_clasificados.csv docs/
+          if git diff --staged --quiet; then
+            echo "Sin cambios para publicar."
+            exit 0
+          fi
+          git commit -m "Actualiza precios y catálogo ($(date +%Y-%m-%d))"
+          git push
+
+      - name: Marcar el workflow si algo falló
+        if: always()
+        run: |
+          echo "extraer=${{ steps.extraer.outcome }}"
+          echo "clasificar=${{ steps.clasificar.outcome }}"
+          echo "generar=${{ steps.generar.outcome }}"
+          if [ "${{ steps.extraer.outcome }}" != "success" ]; then
+            echo "La extracción falló en al menos una tienda (el resto se guardó)."
+            exit 1
+          fi
+          if [ "${{ steps.clasificar.outcome }}" != "success" ]; then
+            echo "Falló la clasificación. No se publicó un catálogo a medio escribir."
+            exit 1
+          fi
+          if [ "${{ steps.generar.outcome }}" != "success" ]; then
+            echo "Falló la generación del catálogo web. No se publicó un catálogo a medio escribir."
+            exit 1
+          fi

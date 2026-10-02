@@ -91,6 +91,8 @@ def extraer_tienda(tienda: dict, fecha_hoy: str, hora_lectura: str) -> tuple[int
     print(f"Leyendo {nombre} ({plataforma})...")
     try:
         filas = lector(tienda, fecha_hoy, hora_lectura, limite=LIMITE_PRUEBA)
+        if not filas:
+            return 0, "la tienda no devolvió productos"
         guardar_tienda(filas, ruta_csv_tienda(nombre, fecha_hoy))
     except Exception as error:
         return 0, str(error)
@@ -124,14 +126,19 @@ def main() -> None:
             print(f"  OK: {cantidad} productos -> {ruta_csv_tienda(nombre, fecha_hoy)}\n")
 
     print("=== Resumen ===")
+    hubo_error = False
     for nombre, cantidad, error in resumen:
         if error == "desactivada":
             print(f"- {nombre}: no se leyó (desactivada).")
         elif error:
+            hubo_error = True
             print(f"- {nombre}: 0 productos. Error: {error}")
         else:
             print(f"- {nombre}: {cantidad} productos. Sin errores.")
     print(f"\nCarpeta del año:\n{CARPETA_PRECIOS / fecha_hoy[:4]}")
+    if hubo_error:
+        print("\nHubo errores en al menos una tienda activa.")
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":
