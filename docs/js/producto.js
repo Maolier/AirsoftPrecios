@@ -1,8 +1,7 @@
 function htmlLoadoutFicha(producto) {
   var slot = GEARUP.comun.slotParaProducto(producto);
   if (!slot) return "";
-  var actual = GEARUP.comun.leerLoadout()[slot.id];
-  var ya = actual === producto.id;
+  var ya = GEARUP.comun.productoEnLoadout(slot.id, producto.id);
   return (
     '<div class="ficha-loadout">' +
     '<button type="button" class="boton-loadout' +
@@ -81,10 +80,11 @@ if (!producto) {
   if (btnLoadout) {
     btnLoadout.addEventListener("click", function () {
       var slotId = btnLoadout.getAttribute("data-slot");
-      var actual = GEARUP.comun.leerLoadout()[slotId];
-      var ya = actual === producto.id;
-      GEARUP.comun.asignarLoadout(slotId, ya ? "" : producto.id);
-      var ahora = GEARUP.comun.leerLoadout()[slotId] === producto.id;
+      var slot = GEARUP.comun.slotPorId(slotId);
+      var ya = GEARUP.comun.productoEnLoadout(slotId, producto.id);
+      if (slot && slot.lista) GEARUP.comun.alternarListaLoadout(slotId, producto.id);
+      else GEARUP.comun.asignarLoadout(slotId, ya ? "" : producto.id);
+      var ahora = GEARUP.comun.productoEnLoadout(slotId, producto.id);
       btnLoadout.classList.toggle("activo", ahora);
       btnLoadout.textContent = ahora
         ? "Quitar del loadout"

@@ -579,8 +579,74 @@ img {
 .loadout-tablero {
   display: grid;
   grid-template-columns: minmax(180px, 1fr) minmax(180px, 240px) minmax(180px, 1fr);
+  grid-template-areas:
+    "cabeza cabeza cabeza"
+    "izq figura der"
+    "facial facial facial";
   gap: 0.75rem 1rem;
   align-items: center;
+}
+
+.loadout-cabeza {
+  grid-area: cabeza;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+#col-izq {
+  grid-area: izq;
+}
+
+#col-der {
+  grid-area: der;
+}
+
+.loadout-facial {
+  grid-area: facial;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.loadout-facial-titulo {
+  margin: 0.35rem 0 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.loadout-modos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.85rem;
+}
+
+.loadout-modo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  color: var(--suave);
+  cursor: pointer;
+}
+
+.loadout-modo:has(input:checked) {
+  color: var(--tinta);
+  font-weight: 700;
+}
+
+.loadout-facial-slots {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.loadout-facial.modo-solo .loadout-facial-slots {
+  grid-template-columns: minmax(0, 320px);
 }
 
 .loadout-col {
@@ -590,6 +656,7 @@ img {
 }
 
 .loadout-centro {
+  grid-area: figura;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -701,6 +768,71 @@ img {
 
 .loadout-quitar:hover {
   color: var(--oferta);
+}
+
+.loadout-extras {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.loadout-lista {
+  background: var(--papel);
+  border: 1px solid var(--linea);
+  border-radius: 10px;
+  padding: 0.75rem 0.8rem;
+}
+
+.loadout-lista.activo {
+  border-color: var(--oliva);
+  box-shadow: var(--sombra);
+}
+
+.loadout-lista-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.loadout-lista-cabecera strong {
+  display: block;
+  font-size: 0.9rem;
+}
+
+.loadout-lista-cabecera span {
+  display: block;
+  color: var(--suave);
+  font-size: 0.75rem;
+  margin-top: 0.1rem;
+}
+
+.loadout-lista-items {
+  list-style: none;
+  margin: 0.65rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.loadout-lista-item {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.loadout-lista-vacio {
+  margin: 0.65rem 0 0;
+  color: var(--suave);
+  font-size: 0.8rem;
+}
+
+.loadout-aviso {
+  margin: 0 0 0.75rem;
+  color: var(--suave);
+  font-size: 0.82rem;
 }
 
 .loadout-total {
@@ -894,10 +1026,22 @@ img {
 
   .loadout-tablero {
     grid-template-columns: 1fr;
+    grid-template-areas:
+      "cabeza"
+      "figura"
+      "facial"
+      "izq"
+      "der";
   }
 
-  .loadout-centro {
-    order: -1;
+  .loadout-cabeza,
+  .loadout-facial-slots {
+    grid-template-columns: 1fr 1fr;
+    max-width: none;
+  }
+
+  .loadout-facial.modo-solo .loadout-facial-slots {
+    grid-template-columns: 1fr;
   }
 
   .loadout-col,
@@ -911,8 +1055,8 @@ img {
     grid-column: 1 / -1;
   }
 
-  #slot-cabeza {
-    grid-column: 1 / -1;
+  .loadout-extras {
+    grid-template-columns: 1fr;
   }
 
   .loadout-figura {

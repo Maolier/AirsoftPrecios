@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Loadout · GearUp</title>
-  <link rel="stylesheet" href="css/estilos.css?v=11">
+  <link rel="stylesheet" href="css/estilos.css?v=15">
 </head>
 <body>
   <main class="contenido">
@@ -17,15 +17,22 @@
     </div>
 
     <div class="loadout-tablero">
+      <div class="loadout-cabeza" id="slot-cabeza"></div>
       <div class="loadout-col" id="col-izq"></div>
       <div class="loadout-centro">
-        <div id="slot-cabeza"></div>
         <div class="loadout-figura" aria-hidden="true">
           <img class="figura-svg" src="img/silueta-loadout.png" alt="">
         </div>
       </div>
       <div class="loadout-col" id="col-der"></div>
+      <section class="loadout-facial" id="zona-facial">
+        <p class="loadout-facial-titulo">Protección facial</p>
+        <div class="loadout-modos" id="modos-facial" role="radiogroup" aria-label="Modo de protección facial"></div>
+        <div class="loadout-facial-slots" id="slots-faciales"></div>
+      </section>
     </div>
+
+    <div class="loadout-extras" id="extras-loadout"></div>
 
     <div class="loadout-total" id="total-loadout">Total: $0</div>
 
@@ -52,7 +59,7 @@
     </section>
   </main>
   <script src="js/datos-catalogo.js"></script>
-  <script src="js/comun.js?v=8"></script>
-  <script src="js/loadout.js?v=1"></script>
+  <script src="js/comun.js?v=12"></script>
+  <script src="js/loadout.js?v=2"></script>
 </body>
 </html>

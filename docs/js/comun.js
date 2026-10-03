@@ -231,20 +231,63 @@
 
   var SLOTS_LOADOUT = [
     {
-      id: "cabeza",
-      nombre: "Cabeza",
+      id: "casco",
+      nombre: "Casco",
       detalle: "Cascos",
       categoria: "proteccion",
       sub: "cascos",
-      col: "centro",
+      grupo: "cabeza",
     },
     {
-      id: "facial",
-      nombre: "Protección facial",
-      detalle: "Lentes, máscara",
+      id: "audifonos",
+      nombre: "Audífonos",
+      detalle: "Headset y protección auditiva",
+      grupo: "cabeza",
+      palabras: [
+        "headset",
+        "comtac",
+        "ptt",
+        "protector auditivo",
+        "proteccion auditiva",
+        "ear pro",
+        "ear protection",
+        "sordina",
+        "laringofono",
+        "manos libres",
+      ],
+      excluir: ["adaptador", "adaptor", "montura", "mount", "mascara", "mask"],
+    },
+    {
+      id: "lentes",
+      nombre: "Antiparra / lentes",
+      detalle: "Antiparras y lentes",
       categoria: "proteccion",
       sub: "mascaras-lentes",
-      col: "der",
+      grupo: "facial",
+      modo: "lentes",
+      palabras: ["lente", "antiparra", "goggle", "gafa", "wiley", "pyramex"],
+      excluir: ["mascara", "mask", "balaclava", "pasamontana"],
+    },
+    {
+      id: "mascara",
+      nombre: "Máscara",
+      detalle: "Máscaras",
+      categoria: "proteccion",
+      sub: "mascaras-lentes",
+      grupo: "facial",
+      modo: "mascara",
+      palabras: ["mascara", "mask"],
+      excluir: ["balaclava", "pasamontana"],
+    },
+    {
+      id: "balaclava",
+      nombre: "Balaclava",
+      detalle: "Balaclavas y pasamontañas",
+      categoria: "uniforme",
+      sub: "gorras",
+      grupo: "facial",
+      modo: "balaclava",
+      palabras: ["balaclava", "pasamontana"],
     },
     {
       id: "chestplate",
@@ -252,7 +295,7 @@
       detalle: "Chalecos y plate carriers",
       categoria: "uniforme",
       sub: "chalecos",
-      col: "izq",
+      grupo: "izq",
     },
     {
       id: "chestrig",
@@ -260,15 +303,7 @@
       detalle: "Pouches y bolsos",
       categoria: "uniforme",
       sub: "pouches",
-      col: "der",
-    },
-    {
-      id: "replica",
-      nombre: "Réplica",
-      detalle: "Todas las réplicas",
-      categoria: "replicas",
-      sub: "",
-      col: "der",
+      grupo: "der",
     },
     {
       id: "guantes",
@@ -276,7 +311,7 @@
       detalle: "Guantes",
       categoria: "proteccion",
       sub: "guantes",
-      col: "izq",
+      grupo: "izq",
     },
     {
       id: "adicional",
@@ -284,7 +319,7 @@
       detalle: "Rodilleras, coderas",
       categoria: "proteccion",
       sub: "rodilleras-coderas",
-      col: "der",
+      grupo: "der",
     },
     {
       id: "botas",
@@ -292,16 +327,69 @@
       detalle: "Botas",
       categoria: "uniforme",
       sub: "botas",
-      col: "izq",
+      grupo: "izq",
     },
+  ];
+
+  var LISTAS_LOADOUT = [
+    {
+      id: "accesorios",
+      nombre: "Accesorios",
+      detalle: "Cualquier producto, salvo réplicas",
+      lista: true,
+      catalogo: true,
+    },
+    {
+      id: "vestimenta",
+      nombre: "Vestimenta",
+      detalle: "Poleras, pantalones, chaquetas y más",
+      lista: true,
+      categoria: "uniforme",
+      sub: "uniformes",
+    },
+  ];
+
+  var MODOS_FACIAL = [
+    { id: "lentes", nombre: "Solo lentes" },
+    { id: "mascara", nombre: "Solo máscara" },
+    { id: "balaclava", nombre: "Solo balaclava" },
+    { id: "todos", nombre: "Todos" },
   ];
 
   var CLAVE_LOADOUT = "gearup-loadout";
 
+  function todosLosSlots() {
+    return SLOTS_LOADOUT.concat(LISTAS_LOADOUT);
+  }
+
   function slotPorId(id) {
-    return SLOTS_LOADOUT.find(function (s) {
+    return todosLosSlots().find(function (s) {
       return s.id === id;
     });
+  }
+
+  function sinAcento(texto) {
+    return String(texto || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+  }
+
+  function coincidePalabras(producto, slot) {
+    var texto = sinAcento(producto.nombre);
+    if (slot.palabras && slot.palabras.length) {
+      var ok = slot.palabras.some(function (palabra) {
+        return texto.indexOf(sinAcento(palabra)) !== -1;
+      });
+      if (!ok) return false;
+    }
+    if (slot.excluir && slot.excluir.length) {
+      var mala = slot.excluir.some(function (palabra) {
+        return texto.indexOf(sinAcento(palabra)) !== -1;
+      });
+      if (mala) return false;
+    }
+    return true;
   }
 
   function productoPorId(id) {
@@ -313,27 +401,90 @@
 
   function cabeEnSlot(producto, slot) {
     if (!producto || !slot) return false;
-    if (producto.categoria !== slot.categoria) return false;
+    if (slot.catalogo) return producto.categoria !== "replicas";
+    if (!slot.categoria && producto.categoria === "replicas") return false;
+    if (slot.categoria && producto.categoria !== slot.categoria) return false;
     if (slot.sub && producto.subcategoria !== slot.sub) return false;
+    if ((slot.palabras && slot.palabras.length) || (slot.excluir && slot.excluir.length)) {
+      return coincidePalabras(producto, slot);
+    }
     return true;
   }
 
   function slotParaProducto(producto) {
-    return (
-      SLOTS_LOADOUT.find(function (slot) {
-        return cabeEnSlot(producto, slot);
-      }) || null
-    );
+    if (!producto) return null;
+    var fijo = SLOTS_LOADOUT.find(function (slot) {
+      return cabeEnSlot(producto, slot);
+    });
+    if (fijo) return fijo;
+    var lista = LISTAS_LOADOUT.find(function (slot) {
+      return slot.id !== "accesorios" && cabeEnSlot(producto, slot);
+    });
+    if (lista) return lista;
+    var accesorios = slotPorId("accesorios");
+    if (accesorios && cabeEnSlot(producto, accesorios)) return accesorios;
+    return null;
+  }
+
+  function modoFacialValido(modo) {
+    return MODOS_FACIAL.some(function (item) {
+      return item.id === modo;
+    });
+  }
+
+  function slotVisible(slot, modo) {
+    if (!slot || slot.grupo !== "facial") return true;
+    var actual = modo || (leerLoadout().modoFacial || "todos");
+    return actual === "todos" || slot.modo === actual;
   }
 
   function leerLoadout() {
+    var datos = {};
     try {
       var bruto = localStorage.getItem(CLAVE_LOADOUT);
-      var datos = bruto ? JSON.parse(bruto) : {};
-      return datos && typeof datos === "object" ? datos : {};
+      var leido = bruto ? JSON.parse(bruto) : {};
+      if (leido && typeof leido === "object" && !Array.isArray(leido)) datos = leido;
     } catch (e) {
-      return {};
+      datos = {};
     }
+    if (normalizarLoadout(datos)) {
+      localStorage.setItem(CLAVE_LOADOUT, JSON.stringify(datos));
+    }
+    return datos;
+  }
+
+  function normalizarLoadout(datos) {
+    var cambio = false;
+    if (datos.cabeza) {
+      if (!datos.casco) datos.casco = datos.cabeza;
+      delete datos.cabeza;
+      cambio = true;
+    }
+    if (Object.prototype.hasOwnProperty.call(datos, "facial")) {
+      delete datos.facial;
+      cambio = true;
+    }
+    if (Object.prototype.hasOwnProperty.call(datos, "replica")) {
+      delete datos.replica;
+      cambio = true;
+    }
+    if (Object.prototype.hasOwnProperty.call(datos, "bucal")) {
+      delete datos.bucal;
+      cambio = true;
+    }
+    if (!Array.isArray(datos.accesorios)) {
+      datos.accesorios = [];
+      cambio = true;
+    }
+    if (!Array.isArray(datos.vestimenta)) {
+      datos.vestimenta = [];
+      cambio = true;
+    }
+    if (!modoFacialValido(datos.modoFacial)) {
+      datos.modoFacial = "todos";
+      cambio = true;
+    }
+    return cambio;
   }
 
   function guardarLoadout(datos) {
@@ -349,20 +500,79 @@
     return datos;
   }
 
+  function alternarListaLoadout(slotId, productoId) {
+    var datos = leerLoadout();
+    var lista = Array.isArray(datos[slotId]) ? datos[slotId].slice() : [];
+    var indice = lista.indexOf(productoId);
+    if (indice === -1) lista.push(productoId);
+    else lista.splice(indice, 1);
+    datos[slotId] = lista;
+    guardarLoadout(datos);
+    return datos;
+  }
+
+  function quitarDeLista(slotId, productoId) {
+    var datos = leerLoadout();
+    var lista = Array.isArray(datos[slotId]) ? datos[slotId].slice() : [];
+    datos[slotId] = lista.filter(function (id) {
+      return id !== productoId;
+    });
+    guardarLoadout(datos);
+    return datos;
+  }
+
+  function definirModoFacial(modo) {
+    var datos = leerLoadout();
+    datos.modoFacial = modoFacialValido(modo) ? modo : "todos";
+    guardarLoadout(datos);
+    return datos;
+  }
+
   function vaciarLoadout() {
-    guardarLoadout({});
+    guardarLoadout({
+      accesorios: [],
+      vestimenta: [],
+      modoFacial: "todos",
+    });
+  }
+
+  function productoEnLoadout(slotId, productoId) {
+    if (!productoId) return false;
+    var datos = leerLoadout();
+    var slot = slotPorId(slotId);
+    if (!slot) return false;
+    if (slot.lista) {
+      return Array.isArray(datos[slotId]) && datos[slotId].indexOf(productoId) !== -1;
+    }
+    return datos[slotId] === productoId;
+  }
+
+  function loadoutTieneDatos() {
+    var datos = leerLoadout();
+    if ((datos.modoFacial || "todos") !== "todos") return true;
+    if (SLOTS_LOADOUT.some(function (slot) { return !!datos[slot.id]; })) return true;
+    return LISTAS_LOADOUT.some(function (slot) {
+      return Array.isArray(datos[slot.id]) && datos[slot.id].length > 0;
+    });
   }
 
   function itemsLoadout() {
     var datos = leerLoadout();
-    return SLOTS_LOADOUT.map(function (slot) {
-      return {
-        slot: slot,
-        producto: productoPorId(datos[slot.id]),
-      };
-    }).filter(function (item) {
-      return item.producto;
+    var modo = datos.modoFacial || "todos";
+    var items = [];
+    SLOTS_LOADOUT.forEach(function (slot) {
+      if (!slotVisible(slot, modo)) return;
+      var producto = productoPorId(datos[slot.id]);
+      if (producto) items.push({ slot: slot, producto: producto });
     });
+    LISTAS_LOADOUT.forEach(function (slot) {
+      var ids = Array.isArray(datos[slot.id]) ? datos[slot.id] : [];
+      ids.forEach(function (id) {
+        var producto = productoPorId(id);
+        if (producto) items.push({ slot: slot, producto: producto });
+      });
+    });
+    return items;
   }
 
   function totalLoadout() {
@@ -648,12 +858,20 @@
     aplicarOrden: aplicarOrden,
     armarEncabezado: armarEncabezado,
     slotsLoadout: SLOTS_LOADOUT,
+    listasLoadout: LISTAS_LOADOUT,
+    modosFacial: MODOS_FACIAL,
     slotPorId: slotPorId,
     slotParaProducto: slotParaProducto,
     cabeEnSlot: cabeEnSlot,
+    slotVisible: slotVisible,
     productoPorId: productoPorId,
     leerLoadout: leerLoadout,
     asignarLoadout: asignarLoadout,
+    alternarListaLoadout: alternarListaLoadout,
+    quitarDeLista: quitarDeLista,
+    definirModoFacial: definirModoFacial,
+    productoEnLoadout: productoEnLoadout,
+    loadoutTieneDatos: loadoutTieneDatos,
     vaciarLoadout: vaciarLoadout,
     itemsLoadout: itemsLoadout,
     totalLoadout: totalLoadout,
